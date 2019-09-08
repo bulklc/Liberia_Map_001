@@ -16,6 +16,8 @@ class Shop(models.Model):
         decimal_places=15,
     )
 
+    items = models.ManyToManyField('shops.Item')
+
     def __str__(self):
         return self.name
 
@@ -34,4 +36,10 @@ class Shop(models.Model):
                 ]
             }
         }
+
+
+class Item(models.Model):
+    name = models.CharField(
+        max_length=256,
+    )
 
