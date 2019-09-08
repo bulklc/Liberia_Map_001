@@ -1,1 +1,18 @@
-var json_Points_of_Interest_001_2 = {"type":"FeatureCollection","name":"Points_of_Interest_001_2","crs":{"type":"name","properties":{"name":"urn:ogc:def:crs:OGC:1.3:CRS84"}},"features":[{"type":"Feature","properties":{"id":"1","Aspect A":"aaaa","Aspect B":"bbbb","Aspect C":"cccc"},"geometry":{"type":"Point","coordinates":[-9.937638789487181,6.814259060308006]}}]}
+var points = [
+  {
+    "type": "Feature",
+    "properties": {
+      "Shop Name": "1",
+      "Latitude": "aaaa",
+      "Longitude": "aaaa",
+      "Items": [],
+    },
+    "geometry": {
+      "type": "Point",
+      "coordinates": [
+        -9.9376387894872,
+        6.814259060308
+      ]
+    }
+  }
+]

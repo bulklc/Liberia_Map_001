@@ -133,12 +133,20 @@
             });
             var popupContent = '<table>\
                     <tr>\
-                        <th scope="row">id</th>\
-                        <td>' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td>\
+                        <th scope="row">Shop</th>\
+                        <td>' + (feature.properties['Shop Name'] !== null ? Autolinker.link(String(feature.properties['Shop Name'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">Aspect A</th>\
-                        <td>' + (feature.properties['Aspect A'] !== null ? Autolinker.link(String(feature.properties['Aspect A'])) : '') + '</td>\
+                        <th scope="row">Lat</th>\
+                        <td>' + (feature.geometry.coordinates[0] !== null ? Autolinker.link(String(feature.geometry.coordinates[0])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Long</th>\
+                        <td>' + (feature.geometry.coordinates[1] !== null ? Autolinker.link(String(feature.geometry.coordinates[1])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Items</th>\
+                        <td>' + (feature.properties['Items'] !== null ? Autolinker.link(String(feature.properties['Items'])) : '') + '</td>\
                     </tr>\
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400});
@@ -163,8 +171,19 @@
         map.getPane('pane_Points_of_Interest_001_2').style.zIndex = 402;
         map.getPane('pane_Points_of_Interest_001_2').style['mix-blend-mode'] = 'normal';
         // Fetch data here
-        var points = json_Points_of_Interest_001_2;
-        var layer_Points_of_Interest_001_2 = new L.geoJson(points, {
+        var json_Points_of_Interest_001_2 = {
+          "type": "FeatureCollection",
+          "name": "Points_of_Interest_001_2",
+          "crs": {
+            "type": "name",
+            "properties": {
+              "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+            }
+          },
+          "features": points
+        }
+
+        var layer_Points_of_Interest_001_2 = new L.geoJson(json_Points_of_Interest_001_2, {
             attribution: '',
             pane: 'pane_Points_of_Interest_001_2',
             onEachFeature: pop_Points_of_Interest_001_2,

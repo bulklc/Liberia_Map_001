@@ -8,4 +8,5 @@ app_name = apps.ShopsConfig.name
 
 urlpatterns = [
     path('', views.MapTemplateView.as_view(), name='map'),
+    path('points/', views.PointListView.as_view(), name='points'),
 ]
