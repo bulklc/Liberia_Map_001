@@ -1,3 +1,5 @@
+{% load static %}
+
 <!doctype html>
 <html lang="en">
     <head>
@@ -6,8 +8,10 @@
         <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-capable" content="yes">
-        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
-        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="{% static "shops/css/leaflet.css" %}">
+        <link rel="stylesheet" href="{% static "shops/css/L.Control.Locate.min.css" %}">
+        <link rel="stylesheet" href="{% static "shops/css/qgis2web.css" %}">
+        <link rel="stylesheet" href="{% static "shops/css/fontawesome-all.min.css" %}">
         <style>
         html, body, #map {
             width: 100%;
@@ -21,17 +25,18 @@
     <body>
         <div id="map">
         </div>
-        <script src="js/qgis2web_expressions.js"></script>
-        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
-        <script src="js/leaflet.rotatedMarker.js"></script>
-        <script src="js/leaflet.pattern.js"></script>
-        <script src="js/leaflet-hash.js"></script>
-        <script src="js/Autolinker.min.js"></script>
-        <script src="js/rbush.min.js"></script>
-        <script src="js/labelgun.min.js"></script>
-        <script src="js/labels.js"></script>
-        <script src="data/LIBlevel_1_1.js"></script>
-        <script src="data/Points_of_Interest_001_2.js"></script>
+        <script src="{% static "shops/js/qgis2web_expressions.js" %}"></script>
+        <script src="{% static "shops/js/leaflet.js" %}"></script>
+        <script src="{% static "shops/js/L.Control.Locate.min.js" %}"></script>
+        <script src="{% static "shops/js/leaflet.rotatedMarker.js" %}"></script>
+        <script src="{% static "shops/js/leaflet.pattern.js" %}"></script>
+        <script src="{% static "shops/js/leaflet-hash.js" %}"></script>
+        <script src="{% static "shops/js/Autolinker.min.js" %}"></script>
+        <script src="{% static "shops/js/rbush.min.js" %}"></script>
+        <script src="{% static "shops/js/labelgun.min.js" %}"></script>
+        <script src="{% static "shops/js/labels.js" %}"></script>
+        <script src="{% static "shops/data/LIBlevel_1_1.js" %}"></script>
+        <script src="{% static "shops/data/Points_of_Interest_001_2.js" %}"></script>
         <script>
         var highlightLayer;
         function highlightFeature(e) {
@@ -50,7 +55,10 @@
         }
         var map = L.map('map', {
             zoomControl:true, maxZoom:28, minZoom:1
-        }).fitBounds([[3.974677773415052,-12.270403924658748],[8.383344273410941,-5.631814899789315]]);
+        }).fitBounds([
+          [3.974677773415052,-12.270403924658748],
+          [8.383344273410941,-5.631814899789315]
+        ]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="http://leafletjs.com" title="A JS library for interactive maps">Leaflet</a>');
         L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
@@ -125,20 +133,20 @@
             });
             var popupContent = '<table>\
                     <tr>\
-                        <th scope="row">id</th>\
-                        <td>' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td>\
+                        <th scope="row">Shop</th>\
+                        <td>' + (feature.properties['Shop Name'] !== null ? Autolinker.link(String(feature.properties['Shop Name'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">Aspect A</th>\
-                        <td>' + (feature.properties['Aspect A'] !== null ? Autolinker.link(String(feature.properties['Aspect A'])) : '') + '</td>\
+                        <th scope="row">Lat</th>\
+                        <td>' + (feature.geometry.coordinates[0] !== null ? Autolinker.link(String(feature.geometry.coordinates[0])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">Aspect B</th>\
-                        <td>' + (feature.properties['Aspect B'] !== null ? Autolinker.link(String(feature.properties['Aspect B'])) : '') + '</td>\
+                        <th scope="row">Long</th>\
+                        <td>' + (feature.geometry.coordinates[1] !== null ? Autolinker.link(String(feature.geometry.coordinates[1])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">Aspect C</th>\
-                        <td>' + (feature.properties['Aspect C'] !== null ? Autolinker.link(String(feature.properties['Aspect C'])) : '') + '</td>\
+                        <th scope="row">Items</th>\
+                        <td><ul>'+ feature.properties['Items'].map(i => '<li>' + i + '</li>').join('') + '</ul></td>\
                     </tr>\
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400});
@@ -162,21 +170,46 @@
         map.createPane('pane_Points_of_Interest_001_2');
         map.getPane('pane_Points_of_Interest_001_2').style.zIndex = 402;
         map.getPane('pane_Points_of_Interest_001_2').style['mix-blend-mode'] = 'normal';
-        var layer_Points_of_Interest_001_2 = new L.geoJson(json_Points_of_Interest_001_2, {
-            attribution: '',
-            pane: 'pane_Points_of_Interest_001_2',
-            onEachFeature: pop_Points_of_Interest_001_2,
-            pointToLayer: function (feature, latlng) {
-                var context = {
-                    feature: feature,
-                    variables: {}
-                };
-                return L.circleMarker(latlng, style_Points_of_Interest_001_2_0(feature));
-            },
-        });
-        bounds_group.addLayer(layer_Points_of_Interest_001_2);
-        map.addLayer(layer_Points_of_Interest_001_2);
-        setBounds();
+        // Fetch data here
+        var points = [];
+        function reqListener () {
+            points = JSON.parse(this.responseText);
+
+            var json_Points_of_Interest_001_2 = {
+              "type": "FeatureCollection",
+              "name": "Points_of_Interest_001_2",
+              "crs": {
+                "type": "name",
+                "properties": {
+                  "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+                }
+              },
+              "features": points
+            }
+
+            var layer_Points_of_Interest_001_2 = new L.geoJson(json_Points_of_Interest_001_2, {
+                attribution: '',
+                pane: 'pane_Points_of_Interest_001_2',
+                onEachFeature: pop_Points_of_Interest_001_2,
+                pointToLayer: function (feature, latlng) {
+                    var context = {
+                        feature: feature,
+                        variables: {}
+                    };
+                    return L.circleMarker(latlng, style_Points_of_Interest_001_2_0(feature));
+                },
+            });
+            bounds_group.addLayer(layer_Points_of_Interest_001_2);
+            map.addLayer(layer_Points_of_Interest_001_2);
+
+            setBounds();
+        }
+
+        var oReq = new XMLHttpRequest();
+        oReq.addEventListener("load", reqListener);
+        oReq.open("GET", "/points");
+        oReq.send();
+
         </script>
     </body>
 </html>
