@@ -125,3 +125,6 @@ dmypy.json
 
 # Vim
 *.swp
+
+# App
+collected-static
