@@ -171,33 +171,45 @@
         map.getPane('pane_Points_of_Interest_001_2').style.zIndex = 402;
         map.getPane('pane_Points_of_Interest_001_2').style['mix-blend-mode'] = 'normal';
         // Fetch data here
-        var json_Points_of_Interest_001_2 = {
-          "type": "FeatureCollection",
-          "name": "Points_of_Interest_001_2",
-          "crs": {
-            "type": "name",
-            "properties": {
-              "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+        var points = [];
+        function reqListener () {
+            points = JSON.parse(this.responseText);
+
+            var json_Points_of_Interest_001_2 = {
+              "type": "FeatureCollection",
+              "name": "Points_of_Interest_001_2",
+              "crs": {
+                "type": "name",
+                "properties": {
+                  "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+                }
+              },
+              "features": points
             }
-          },
-          "features": points
+
+            var layer_Points_of_Interest_001_2 = new L.geoJson(json_Points_of_Interest_001_2, {
+                attribution: '',
+                pane: 'pane_Points_of_Interest_001_2',
+                onEachFeature: pop_Points_of_Interest_001_2,
+                pointToLayer: function (feature, latlng) {
+                    var context = {
+                        feature: feature,
+                        variables: {}
+                    };
+                    return L.circleMarker(latlng, style_Points_of_Interest_001_2_0(feature));
+                },
+            });
+            bounds_group.addLayer(layer_Points_of_Interest_001_2);
+            map.addLayer(layer_Points_of_Interest_001_2);
+
+            setBounds();
         }
 
-        var layer_Points_of_Interest_001_2 = new L.geoJson(json_Points_of_Interest_001_2, {
-            attribution: '',
-            pane: 'pane_Points_of_Interest_001_2',
-            onEachFeature: pop_Points_of_Interest_001_2,
-            pointToLayer: function (feature, latlng) {
-                var context = {
-                    feature: feature,
-                    variables: {}
-                };
-                return L.circleMarker(latlng, style_Points_of_Interest_001_2_0(feature));
-            },
-        });
-        bounds_group.addLayer(layer_Points_of_Interest_001_2);
-        map.addLayer(layer_Points_of_Interest_001_2);
-        setBounds();
+        var oReq = new XMLHttpRequest();
+        oReq.addEventListener("load", reqListener);
+        oReq.open("GET", "/points");
+        oReq.send();
+
         </script>
     </body>
 </html>

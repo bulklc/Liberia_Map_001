@@ -2,6 +2,8 @@ from django.http import JsonResponse
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 
+from shops import models
+
 
 class JSONResponseMixin:
     """
@@ -13,6 +15,7 @@ class JSONResponseMixin:
         """
         return JsonResponse(
             self.get_data(context),
+            safe=False,
             **response_kwargs
         )
 
@@ -53,21 +56,9 @@ class PointListView(JSONResponseMixin, ListView):
           }
         ]
     """
+    model = models.Shop
+
     def get_data(self, context):
-        return [
-          {
-            "type": "Feature",
-            "properties": {
-              "Shop Name": "1",
-              "Items": [],
-            },
-            "geometry": {
-              "type": "Point",
-              "coordinates": [
-                -9.9376387894872,
-                6.814259060308
-              ]
-            }
-          }
-        ]
+        object_list = context.get('object_list')
+        return [obj.to_dict() for obj in object_list]
 
