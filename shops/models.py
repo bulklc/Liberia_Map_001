@@ -26,7 +26,7 @@ class Shop(models.Model):
             "type": "Feature",
             "properties": {
                 "Shop Name": self.name,
-                "Items": [],
+                "Items": [i.name for i in self.items.all()],
             },
             "geometry": {
                 "type": "Point",
@@ -43,3 +43,5 @@ class Item(models.Model):
         max_length=256,
     )
 
+    def __str__(self):
+        return self.name

@@ -146,7 +146,7 @@
                     </tr>\
                     <tr>\
                         <th scope="row">Items</th>\
-                        <td>' + (feature.properties['Items'] !== null ? Autolinker.link(String(feature.properties['Items'])) : '') + '</td>\
+                        <td><ul>'+ feature.properties['Items'].map(i => '<li>' + i + '</li>').join('') + '</ul></td>\
                     </tr>\
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400});
