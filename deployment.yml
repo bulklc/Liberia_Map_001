@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: gcr.io/unified-academy-252221/liberia:latest
+          image: gcr.io/unified-academy-252221/liberia:v5
           ports:
             - containerPort: 8000
           # The following environment variables will contain the database host,
