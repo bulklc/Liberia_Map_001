@@ -22,6 +22,8 @@ spec:
           # user and password to connect to the PostgreSQL instance.
           env:
             # [START cloudsql_secrets]
+            - name: DJANGO_SETTINGS_MODULE
+              value: project.production
             - name: POSTGRES_DB_USER
               valueFrom:
                 secretKeyRef:
